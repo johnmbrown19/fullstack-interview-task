@@ -75,3 +75,38 @@ Financial Companies - localhost:8082
 
 Admin - localhost:8083
 - `/investments/:id` get an investment record by id
+
+## Deliverable Update
+
+### New Routes
+
+Admin - localhost:8083
+- `/generate-report` generate CSV report and send to `/investments/export` as JSON
+
+### New Routes
+To run Jest test suite use the following command from within '/admin' directory:
+- npm test
+
+
+### Q+A
+1. To make this service more secure, some of the following measures can be taken:
+- Implement HTTPS for secure communication between the client and the server.
+- Implement proper authentication and authorisation to ensure only authorised users have access.
+- Implement input validation and sanitization to prevent injection attacks and ensure data integrity.
+- Implement rate limiting to prevent brute force attacks.
+- Implement logging and monitoring to detect and respond to any security incidents or anomalies.
+
+
+2. To make this solution scale to millions of records, some of the following measures can be taken:
+- Use a distributed DB (e.g. MongoDB) to handle the large volume of data.
+- Use caching to reduce load on the DB/improve response times.
+- Use load balancing to distribute requests across multiple servers to handle increased load.
+- Use horizontal scaling by adding more servers to the system to handle the increased load.
+
+
+3. Given more time, I would have liked to improve the following aspects of the solution:
+- Write more unit and integration tests to improve  overall test coverage.
+- Implement better error handling and error messages/make more meaningful.
+- Implement better validation and sanitisation of user input to improve data integrity and prevent injection attacks.
+- Improve error reporting mechanism to notify admins of any errors/anomalies.
+- Implement filtering and aggregation of data to provide more insights.
