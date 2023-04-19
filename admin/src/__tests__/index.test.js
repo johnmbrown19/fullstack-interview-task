@@ -112,7 +112,6 @@ describe("GET /generate-report", () => {
     });
   });
   
-  
 // Test when the financial companies service returns an error
 it("should return a 500 error when the financial companies service returns an error", async () => {
     // Mock a successful request to the investments service
@@ -163,59 +162,5 @@ it("should return a 500 error when the financial companies service returns an er
         status: null
       }
     });
-  });
-  
-  
-
-  it("should return a 500 error when the financial companies service returns an error", async () => {
-    // Mock a successful request to the investments service
-    nock(config.investmentsServiceUrl)
-      .get("/investments")
-      .reply(200, [
-        { 
-          id: "1",
-          userId: "123",
-          financialCompanyId: "1",
-          date: "2022-01-01",
-          investmentTotal: 1000,
-          investmentPercentage: 0.5
-        },
-        { 
-          id: "2",
-          userId: "456",
-          financialCompanyId: "2",
-          date: "2022-02-01",
-          investmentTotal: 2000,
-          investmentPercentage: 0.3
-        },
-        { 
-          id: "3",
-          userId: "789",
-          financialCompanyId: "3",
-          date: "2022-03-01",
-          investmentTotal: 3000,
-          investmentPercentage: 0.2
-        }
-      ]);
-    
-    // Mock a failed request to the financial companies service
-    nock(config.financialCompaniesServiceUrl)
-      .get("/companies")
-      .replyWithError("Error");
-    
-    const response = await request(app).get("/generate-report");
-    
-    expect(response.status).toEqual(500);
-    expect(response.body).toEqual({ 
-      message: "An error occurred while generating the report.",
-      error: {
-        message: "Error",
-        name: "Error",
-        stack: expect.any(String),
-        config: expect.any(Object),
-        status: null
-      }
-    });
-  });
-  
+  });  
 })
