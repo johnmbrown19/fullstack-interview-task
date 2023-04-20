@@ -92,7 +92,7 @@ app.get("/generate-report", async (req, res) => {
 
     const csvContentEncoded = encodeURIComponent(csvContent);
 
-    await axios.post(`${config.investmentsServiceUrl}/investments/export`, { csvContentEncoded }, {
+    await axios.post(`${config.investmentsServiceUrl}/export`, { csvContentEncoded }, {
       headers: {
         'Content-Type': 'application/json'
       }
