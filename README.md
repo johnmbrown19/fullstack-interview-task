@@ -79,7 +79,6 @@ Admin - localhost:8083
 ## Deliverable Update
 
 ### New Routes
-
 Admin - localhost:8083
 - `/generate-report` generate CSV report and send to `/investments/export` as JSON
 
@@ -87,6 +86,14 @@ Admin - localhost:8083
 To run Jest test suite use the following command from within '/admin' directory:
 - npm test
 
+### Process
+- Added inline comments throughout
+- Replaced request module with axios
+- Added fs, CsvWriter, and CsvStringify as imports
+- '/investments/:id' route handler updated to now use async/await w/ axios module; improved error handling
+- New route '/generate-report' created - generates a CSV report with investment data
+- Modified server startup code
+- Test file created that contains test for two API endpoints - '/investments/:id' and '/generate-report'
 
 ### Q+A
 1. To make this service more secure, some of the following measures can be taken:

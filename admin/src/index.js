@@ -44,14 +44,14 @@ app.get("/generate-report", async (req, res) => {
           'Content-Type': 'application/json'
         }
       })
-    ]);  
+    ]);
 
     const investments = investmentsResponse.data;
     const companies = companiesResponse.data;
 
     const csvData = investments.map((investment) => {
       const company = companies.find((c) => c.id === investment.financialCompanyId);
-    
+
       return {
         User: investment.userId.replace(/"/g, '""'), // manually escape quote characters
         FirstName: investment.firstName.replace(/"/g, '""'),
@@ -61,25 +61,24 @@ app.get("/generate-report", async (req, res) => {
         Value: investment.investmentTotal * investment.investmentPercentage,
       };
     });
-    
 
-  //  escape any quote characters in the CSV data
-  // Did not get working in time so refactored above 
-  const csvContent = stringify(csvData, {
-    header: true,
-    quote: '"',
-    escape: '"',
-    doubleQuote: true,
-    empty: "",
-    columns: [
-      { key: "User", header: "User" },
-      { key: "FirstName", header: "First Name" },
-      { key: "LastName", header: "Last Name" },
-      { key: "Date", header: "Date" },
-      { key: "Holding", header: "Holding" },
-      { key: "Value", header: "Value" },
-    ],
-  });
+
+    //  escape any quote characters in the CSV data (w/ CSV-Stringify)
+    const csvContent = stringify(csvData, {
+      header: true,
+      quote: '"',
+      escape: '"',
+      doubleQuote: true,
+      empty: "",
+      columns: [
+        { key: "User", header: "User" },
+        { key: "FirstName", header: "First Name" },
+        { key: "LastName", header: "Last Name" },
+        { key: "Date", header: "Date" },
+        { key: "Holding", header: "Holding" },
+        { key: "Value", header: "Value" },
+      ],
+    });
 
     const csvFilePath = `${__dirname}/report.csv`;
 
@@ -89,11 +88,11 @@ app.get("/generate-report", async (req, res) => {
       console.error(error); // Add this line to log the error
       return res.status(500).send({ message: "An error occurred while saving the report.", error });
     }
-    
+
 
     const csvContentEncoded = encodeURIComponent(csvContent);
 
-    await axios.post(`${config.investmentsServiceUrl}/investments/export`, {csvContentEncoded}, {
+    await axios.post(`${config.investmentsServiceUrl}/investments/export`, { csvContentEncoded }, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -105,10 +104,6 @@ app.get("/generate-report", async (req, res) => {
     res.status(500).send({ message: "An error occurred while generating the report.", error });
   }
 });
-
-
-
-
 
 // Start the server
 const server = app.listen(process.env.NODE_ENV === 'test' ? 0 : config.port, (err) => {
